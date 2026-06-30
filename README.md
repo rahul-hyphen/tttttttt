@@ -324,13 +324,6 @@ Click: Create Repository
 
 In this phase, we build the Docker image and push it to Amazon ECR Public.
 
-### Services Used
-
-```text
-Docker
-Amazon ECR Public
-```
-
 ### Navigate to Application Directory
 
 ```bash
@@ -405,13 +398,6 @@ Image Successfully Uploaded
 
 In this phase, we create an ECS cluster using AWS Fargate.
 
-### Services Used
-
-```text
-Amazon ECS
-AWS Fargate
-```
-
 ### Create Cluster
 
 Navigate:
@@ -427,14 +413,8 @@ Create Cluster
 ### Cluster Configuration
 
 ```text
-Cluster Name:
-todo-app-cluster
-```
-
-### Compute Capacity
-
-```text
-Fargate Only
+Cluster Name: todo-app-cluster
+Compute Capacity: Fargate Only
 ```
 
 ### Monitoring
@@ -443,10 +423,7 @@ Fargate Only
 Container Insights with Enhanced Observability
 ```
 
-Click:
-
-```text
-Create
+Click: Create
 ```
 
 ---
@@ -454,14 +431,6 @@ Create
 ## Phase 7: Create ECS Task Definition
 
 In this phase, we define how our container should run inside ECS.
-
-### Services Used
-
-```text
-Amazon ECS
-Amazon ECR
-CloudWatch
-```
 
 ### Create Task Definition
 
