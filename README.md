@@ -236,21 +236,14 @@ AmazonEC2FullAccess
 Click: Create User
 ---
 
+
 ## Phase 3: Configure AWS CLI
 
 In this phase, we generate an Access Key and Secret Key for the IAM user and configure AWS CLI on the EC2 instance.
 
-### Services Used
-
-```text
-AWS IAM
-AWS CLI
-```
-
 ### Generate Access Key
 
 Navigate:
-
 ```text
 IAM
   ↓
@@ -263,19 +256,12 @@ Security Credentials
 Create Access Key
 ```
 
-Copy:
-
-```text
-Access Key ID
-Secret Access Key
+Copy: Access Key ID and Secret Access Key
 ```
 
 ### Configure AWS CLI
 
-Run:
-
-```bash
-aws configure
+Run: aws configure
 ```
 
 Provide:
