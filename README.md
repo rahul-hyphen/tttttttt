@@ -188,41 +188,566 @@ cd ~/todo-app-via-aws-services
 ```bash
 ls
 ```
+---
+## Phase 2: Create IAM User
+
+In this phase, we create an IAM user that will be used to authenticate with AWS CLI and interact with Amazon ECR.
+
+### Services Used
+
+```text
+AWS IAM
+```
+
+### Create IAM User
+
+Navigate:
+
+```text
+AWS Console
+  ↓
+IAM
+  ↓
+Users
+  ↓
+Create User
+```
+
+### User Details
+
+```text
+User Name:
+ankit
+```
+
+### Assign Permissions
+
+Attach the following permissions:
+
+```text
+AmazonElasticContainerRegistryPublicFullAccess
+```
+
+```text
+AmazonElasticContainerRegistryPublicPowerUser
+```
+
+```text
+AmazonElasticContainerRegistryPublicReadOnly
+```
+
+```text
+AmazonEC2FullAccess
+```
+
+Click:
+
+```text
+Create User
+```
 
 ---
 
-## Phase 2: Create IAM User
-
-...
-
 ## Phase 3: Configure AWS CLI
 
-...
+In this phase, we generate an Access Key and Secret Key for the IAM user and configure AWS CLI on the EC2 instance.
+
+### Services Used
+
+```text
+AWS IAM
+AWS CLI
+```
+
+### Generate Access Key
+
+Navigate:
+
+```text
+IAM
+  ↓
+Users
+  ↓
+ankit
+  ↓
+Security Credentials
+  ↓
+Create Access Key
+```
+
+Copy:
+
+```text
+Access Key ID
+Secret Access Key
+```
+
+### Configure AWS CLI
+
+Run:
+
+```bash
+aws configure
+```
+
+Provide:
+
+```text
+AWS Access Key ID
+AWS Secret Access Key
+ap-south-1
+```
+
+### Verify Configuration
+
+```bash
+aws sts get-caller-identity
+```
+
+Expected Output:
+
+```text
+AWS Account Details
+IAM User Information
+```
+
+---
 
 ## Phase 4: Create Public ECR Repository
 
-...
+In this phase, we create a Public Amazon ECR repository that will store our Docker image.
 
-## Phase 5: Push Docker Image to ECR
+### Services Used
 
-...
+```text
+Amazon ECR Public
+```
+
+### Create Repository
+
+Navigate:
+
+```text
+Amazon ECR
+  ↓
+Public Registry
+  ↓
+Repositories
+  ↓
+Create Repository
+```
+
+### Repository Details
+
+```text
+Repository Name:
+todo-app
+```
+
+```text
+Operating System:
+Linux
+```
+
+```text
+Architecture:
+x86-64
+```
+
+Click:
+
+```text
+Create Repository
+```
+
+---
+
+## Phase 5: Build and Push Docker Image to ECR
+
+In this phase, we build the Docker image and push it to Amazon ECR Public.
+
+### Services Used
+
+```text
+Docker
+Amazon ECR Public
+```
+
+### Navigate to Application Directory
+
+```bash
+cd ~/todo-app-via-aws-services
+```
+
+### Open ECR Push Commands
+
+Navigate:
+
+```text
+Amazon ECR
+  ↓
+Public Repository
+  ↓
+todo-app
+  ↓
+View Push Commands
+```
+
+### Login to ECR
+
+```bash
+sudo aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/q2k6c3h5
+```
+
+### Build Docker Image
+
+```bash
+sudo docker build -t todo-app .
+```
+
+### Verify Image
+
+```bash
+docker images
+```
+
+### Tag Docker Image
+
+```bash
+sudo docker tag todo-app:latest public.ecr.aws/q2k6c3h5/todo-app:latest
+```
+
+### Push Docker Image
+
+```bash
+sudo docker push public.ecr.aws/q2k6c3h5/todo-app:latest
+```
+
+### Verify Image Upload
+
+Navigate:
+
+```text
+Amazon ECR
+  ↓
+Public Repositories
+  ↓
+todo-app
+```
+
+Verify:
+
+```text
+Image Successfully Uploaded
+```
+
+---
 
 ## Phase 6: Create ECS Cluster
 
-...
+In this phase, we create an ECS cluster using AWS Fargate.
 
-## Phase 7: Create Task Definition
+### Services Used
 
-...
+```text
+Amazon ECS
+AWS Fargate
+```
+
+### Create Cluster
+
+Navigate:
+
+```text
+Amazon ECS
+  ↓
+Clusters
+  ↓
+Create Cluster
+```
+
+### Cluster Configuration
+
+```text
+Cluster Name:
+todo-app-cluster
+```
+
+### Compute Capacity
+
+```text
+Fargate Only
+```
+
+### Monitoring
+
+```text
+Container Insights with Enhanced Observability
+```
+
+Click:
+
+```text
+Create
+```
+
+---
+
+## Phase 7: Create ECS Task Definition
+
+In this phase, we define how our container should run inside ECS.
+
+### Services Used
+
+```text
+Amazon ECS
+Amazon ECR
+CloudWatch
+```
+
+### Create Task Definition
+
+Navigate:
+
+```text
+Amazon ECS
+  ↓
+Task Definitions
+  ↓
+Create Task Definition
+```
+
+### General Configuration
+
+```text
+Task Definition Name:
+todo-task-1
+```
+
+```text
+Launch Type:
+AWS Fargate
+```
+
+```text
+Operating System:
+Linux
+```
+
+```text
+CPU Architecture:
+x86-64
+```
+
+### Container Configuration
+
+Container Name:
+
+```text
+todo-app
+```
+
+Image URI:
+
+```text
+public.ecr.aws/q2k6c3h5/todo-app:latest
+```
+
+### Port Mapping
+
+```text
+Container Port:
+8000
+```
+
+```text
+Protocol:
+TCP
+```
+
+### Log Collection
+
+```text
+Amazon CloudWatch Logs
+```
+
+Click:
+
+```text
+Create
+```
+
+---
 
 ## Phase 8: Run ECS Task
 
-...
+In this phase, we launch our application container using the ECS Task Definition.
+
+### Services Used
+
+```text
+Amazon ECS
+AWS Fargate
+```
+
+### Run New Task
+
+Navigate:
+
+```text
+Amazon ECS
+  ↓
+Clusters
+  ↓
+todo-app-cluster
+```
+
+Scroll Down:
+
+```text
+Tasks
+```
+
+Click:
+
+```text
+Run New Task
+```
+
+### Select Task Definition
+
+```text
+todo-task-1
+```
+
+### Networking Configuration
+
+Public IP:
+
+```text
+Enabled
+```
+
+Security Group:
+
+```text
+Allow TCP Port 8000
+```
+
+Click:
+
+```text
+Create
+```
+
+---
 
 ## Phase 9: Verify Application
 
-...
+In this phase, we verify that the application is running successfully.
 
-## Phase 10: Monitor Logs using CloudWatch
+### Get Public IP
 
-...
+Navigate:
+
+```text
+Amazon ECS
+  ↓
+Clusters
+  ↓
+todo-app-cluster
+  ↓
+Tasks
+  ↓
+Running Task
+```
+
+Copy:
+
+```text
+Public IP Address
+```
+
+### Access Application
+
+Open Browser:
+
+```text
+http://<PUBLIC-IP>:8000
+```
+
+Example:
+
+```text
+http://13.232.xxx.xxx:8000
+```
+
+Expected Result:
+
+```text
+Todo Application Home Page
+```
+
+---
+
+## Phase 10: Monitor Logs Using CloudWatch
+
+In this phase, we verify application logs generated by ECS.
+
+### Services Used
+
+```text
+Amazon CloudWatch
+```
+
+### View Logs
+
+Navigate:
+
+```text
+Amazon CloudWatch
+  ↓
+Log Groups
+```
+
+Select:
+
+```text
+ECS Log Group
+```
+
+Verify:
+
+```text
+Container Startup Logs
+Application Logs
+Error Logs
+```
+
+---
+
+# Project Outcome
+
+✅ EC2 Instance Provisioned
+
+✅ Docker Installed Using User Data
+
+✅ AWS CLI Configured
+
+✅ IAM User Created
+
+✅ Docker Image Built
+
+✅ Docker Image Stored in Amazon ECR
+
+✅ ECS Cluster Created
+
+✅ ECS Task Definition Created
+
+✅ Application Running on AWS Fargate
+
+✅ Logs Available in CloudWatch
+
+✅ Todo Application Accessible Through Public IP
+---
+
