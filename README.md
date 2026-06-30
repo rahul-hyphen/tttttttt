@@ -193,12 +193,6 @@ ls
 
 In this phase, we create an IAM user that will be used to authenticate with AWS CLI and interact with Amazon ECR.
 
-### Services Used
-
-```text
-AWS IAM
-```
-
 ### Create IAM User
 
 Navigate:
@@ -216,8 +210,7 @@ Create User
 ### User Details
 
 ```text
-User Name:
-ankit
+User Name: ankit
 ```
 
 ### Assign Permissions
@@ -240,12 +233,7 @@ AmazonElasticContainerRegistryPublicReadOnly
 AmazonEC2FullAccess
 ```
 
-Click:
-
-```text
-Create User
-```
-
+Click: Create User
 ---
 
 ## Phase 3: Configure AWS CLI
