@@ -234,8 +234,8 @@ AmazonEC2FullAccess
 ```
 
 Click: Create User
----
 
+---
 
 ## Phase 3: Configure AWS CLI
 
@@ -261,8 +261,12 @@ Copy: Access Key ID and Secret Access Key
 
 ### Configure AWS CLI
 
-Run: aws configure
+Run:
+
+```bash
+aws configure
 ```
+
 
 Provide:
 
@@ -291,12 +295,6 @@ IAM User Information
 
 In this phase, we create a Public Amazon ECR repository that will store our Docker image.
 
-### Services Used
-
-```text
-Amazon ECR Public
-```
-
 ### Create Repository
 
 Navigate:
@@ -313,25 +311,11 @@ Create Repository
 
 ### Repository Details
 
-```text
-Repository Name:
-todo-app
 ```
-
-```text
-Operating System:
-Linux
-```
-
-```text
-Architecture:
-x86-64
-```
-
-Click:
-
-```text
-Create Repository
+Repository Name: todo-app
+Operating System: Linux
+Architecture: x86-64
+Click: Create Repository
 ```
 
 ---
